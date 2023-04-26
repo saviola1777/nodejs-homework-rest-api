@@ -6,19 +6,21 @@ const { validateBody } = require("../../uttils/index")
 
 const { schema } = require("../../models/contact")
 
+const uthenticate = require("../../middlewares/authenticate")
+
 const router = express.Router()
 
 
-router.get('/', ctrl.getAllContacts)
+router.get('/', uthenticate, ctrl.getAllContacts)
 
-router.get("/:id", ctrl.getContactsById)
+router.get("/:id", uthenticate, ctrl.getContactsById)
 
-router.post('/', ctrl.addContacts)
+router.post('/', uthenticate, validateBody(schema.addSchema), ctrl.addContacts)
 
-router.put('/:id', ctrl.updateContacById)
+router.put('/:id', uthenticate, ctrl.updateContacById)
 
-router.patch('/:id/favorite', validateBody(schema.updateSchema), ctrl.updateFavoriteById)
+router.patch('/:id/favorite', uthenticate, validateBody(schema.updateSchema), ctrl.updateFavoriteById)
 
-router.delete('/:id', ctrl.deleteContacts)
+router.delete('/:id', uthenticate, ctrl.deleteContacts)
 
 module.exports = router

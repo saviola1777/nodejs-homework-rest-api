@@ -20,20 +20,25 @@ const contactSchema = new Schema(
          type: Boolean,
          default: false,
       },
+      owner: {
+         type: Schema.Types.ObjectId,
+         ref: "user",
+      },
    }, { versionKey: false })
 
 contactSchema.post("save", handleMongooseError)
 
 const addSchema = Joi.object({
+   name: Joi.string().required(),
    email: Joi.string().required(),
    phone: Joi.string().required(),
 })
 
 const updateSchema = Joi.object({
-   favorite: Joi.boolean().required()
+   favorite: Joi.boolean().required(),
 })
 
-const schema = {addSchema , updateSchema}
+const schema = { addSchema, updateSchema }
 
 const Contact = model("contact", contactSchema)
 
